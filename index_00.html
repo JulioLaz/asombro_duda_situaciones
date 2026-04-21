@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tema 1.4 — El Asombro, la Duda y las Situaciones Límite</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:    #050a0e;
+  --bg2:   #0a1520;
+  --bg3:   #0f1e2e;
+  --bg4:   #0d1a28;
+  --cyan:  #00e5ff;
+  --cyan2: #00bcd4;
+  --gold:  #ffb300;
+  --gold2: #ff8c00;
+  --green: #00ff88;
+  --red:   #ff3b5c;
+  --purple:#b44fff;
+  --white: #f0f8ff;
+  --text:  #d8eaf6;
+  --dim:   #8aa0b0;
+  --border:#1a2d40;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1.05rem;
+  line-height: 1.85;
+  position: relative;
+}
+
+/* GRID OVERLAY */
+body::after {
+  content:'';
+  position: fixed; inset:0;
+  background-image:
+    linear-gradient(rgba(0,229,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,.025) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events:none; z-index:0;
+}
+
+/* SCANLINES */
+body::before {
+  content:'';
+  position: fixed; inset:0;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 3px,
+    rgba(0,0,0,.06) 3px, rgba(0,0,0,.06) 4px
+  );
+  pointer-events:none; z-index:9999;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky; top:0; z-index:100;
+  background: rgba(5,10,14,.96);
+  border-bottom: 1px solid var(--border);
+  padding: .75rem 1.5rem;
+  display: flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:.5rem;
+  backdrop-filter: blur(8px);
+}
+.nav-brand {
+  font-family:'Orbitron',sans-serif;
+  font-size: .7rem; font-weight:900;
+  color: var(--cyan); letter-spacing:.15em;
+}
+.nav-links {
+  display:flex; gap:.5rem; flex-wrap:wrap;
+}
+.nav-links a {
+  font-family:'Orbitron',sans-serif;
+  font-size: .6rem; font-weight:700;
+  color: var(--dim); text-decoration:none;
+  padding: .35rem .7rem;
+  border:1px solid transparent;
+  letter-spacing:.1em; text-transform:uppercase;
+  transition: all .2s;
+}
+.nav-links a:hover {
+  color: var(--cyan); border-color: var(--cyan);
+}
+.nav-quiz {
+  font-family:'Orbitron',sans-serif;
+  font-size: .65rem; font-weight:700;
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  color: #000; padding: .4rem .9rem;
+  text-decoration:none; letter-spacing:.1em;
+  transition: all .2s;
+}
+.nav-quiz:hover {
+  box-shadow: 0 0 20px var(--gold);
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative; z-index:1;
+  padding: 4rem 1.5rem 3rem;
+  text-align:center;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, #0a1e33 0%, var(--bg) 70%);
+  border-bottom: 1px solid var(--border);
+}
+.hero-badge {
+  display: inline-block;
+  font-family:'Orbitron',sans-serif;
+  font-size: .65rem; letter-spacing:.3em;
+  color: var(--cyan); border:1px solid var(--cyan);
+  padding: .4rem 1rem; margin-bottom:1.5rem;
+  text-transform:uppercase; opacity:.85;
+}
+.hero-title {
+  font-family:'Orbitron',sans-serif;
+  font-size: clamp(1.4rem, 4vw, 2.2rem);
+  font-weight:900; color: var(--gold);
+  line-height:1.3; margin-bottom:.8rem;
+  text-shadow: 0 0 40px rgba(255,179,0,.5), 0 0 80px rgba(255,179,0,.2);
+}
+.hero-sub {
+  font-size: 1.1rem; color: var(--cyan2);
+  letter-spacing:.1em; margin-bottom:2rem; opacity:.85;
+}
+.hero-greek {
+  font-size: 1rem; letter-spacing:.4em;
+  color: var(--gold2); opacity:.6;
+  margin-bottom:2rem;
+}
+.hero-intro {
+  max-width:680px; margin:0 auto;
+  font-size: 1.1rem; line-height:1.9;
+  color: var(--text);
+}
+
+/* ── CONTENIDO ── */
+.content {
+  position: relative; z-index:1;
+  max-width: 860px; margin:0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* INDEX / TABLA DE CONTENIDOS */
+.toc {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--cyan);
+  padding: 1.5rem 2rem;
+  margin-bottom: 3rem;
+}
+.toc-title {
+  font-family:'Orbitron',sans-serif;
+  font-size: .75rem; font-weight:700;
+  color: var(--cyan); letter-spacing:.2em;
+  margin-bottom:1rem; text-transform:uppercase;
+}
+.toc-list {
+  list-style:none;
+  display:flex; flex-direction:column; gap:.5rem;
+}
+.toc-list li a {
+  font-size: 1rem; color: var(--text);
+  text-decoration:none;
+  display:flex; align-items:baseline; gap:.6rem;
+  transition: color .2s;
+}
+.toc-list li a:hover { color:var(--cyan); }
+.toc-num {
+  font-family:'Orbitron',sans-serif;
+  font-size: .7rem; color: var(--gold);
+  min-width:28px;
+}
+
+/* SECCIONES */
+.seccion {
+  margin-bottom: 4rem;
+  scroll-margin-top: 70px;
+}
+.seccion-header {
+  display:flex; align-items:center; gap:1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: .8rem;
+  border-bottom: 1px solid var(--border);
+}
+.seccion-num {
+  font-family:'Press Start 2P',monospace;
+  font-size: .75rem; color: var(--bg);
+  background: var(--gold);
+  padding: .4rem .6rem;
+  min-width:36px; text-align:center;
+  flex-shrink:0;
+}
+.seccion-titulo {
+  font-family:'Orbitron',sans-serif;
+  font-size: clamp(1.15rem, 3vw, 1.5rem);
+  font-weight:900; color: var(--gold);
+  line-height:1.3;
+}
+.seccion-filosofo {
+  font-family:'Orbitron',sans-serif;
+  font-size: .7rem; color: var(--dim);
+  letter-spacing:.2em; margin-bottom:1.5rem;
+  text-transform:uppercase;
+}
+
+/* SUBTÍTULOS */
+h3 {
+  font-family:'Orbitron',sans-serif;
+  font-size: 1.05rem; font-weight:700;
+  color: var(--cyan);
+  margin: 2rem 0 .8rem;
+  padding-left:.8rem;
+  border-left: 2px solid var(--cyan);
+}
+
+/* PÁRRAFOS */
+p {
+  font-size: 1.1rem;
+  color: var(--text);
+  line-height:1.9;
+  margin-bottom:1rem;
+}
+
+/* QUOTE / CITA */
+.cita {
+  background: var(--bg4);
+  border-left: 3px solid var(--purple);
+  padding: 1.2rem 1.5rem;
+  margin: 1.5rem 0;
+  font-style:italic;
+}
+.cita p {
+  color: #d0c0f0;
+  font-size: 1.1rem;
+}
+.cita-autor {
+  font-family:'Orbitron',sans-serif;
+  font-size: .7rem; color: var(--purple);
+  letter-spacing:.15em; margin-top:.5rem;
+  display:block; font-style:normal;
+}
+
+/* BOX CONCEPTO */
+.concepto {
+  background: var(--bg2);
+  border:1px solid var(--border);
+  border-top: 2px solid var(--cyan);
+  padding: 1.2rem 1.5rem;
+  margin: 1.5rem 0;
+}
+.concepto-label {
+  font-family:'Orbitron',sans-serif;
+  font-size: .65rem; color: var(--cyan);
+  letter-spacing:.2em; margin-bottom:.5rem;
+  text-transform:uppercase;
+}
+.concepto p {
+  margin-bottom:0;
+}
+
+/* BOX IMPORTANTE */
+.importante {
+  background: rgba(255,179,0,.06);
+  border:1px solid rgba(255,179,0,.3);
+  padding: 1.2rem 1.5rem;
+  margin: 1.5rem 0;
+}
+.importante p {
+  color: #f0d060;
+}
+
+/* LISTA */
+ul.filo-list {
+  list-style:none;
+  display:flex; flex-direction:column; gap:.7rem;
+  margin: 1rem 0 1.5rem;
+}
+ul.filo-list li {
+  display:flex; align-items:baseline; gap:.8rem;
+  font-size: 1.1rem; color: var(--text);
+  line-height:1.8;
+}
+ul.filo-list li::before {
+  content:'▸';
+  color: var(--cyan); flex-shrink:0;
+  font-size:1rem;
+}
+
+/* ETAPAS / PASOS */
+.etapas {
+  display:flex; flex-direction:column; gap:1rem;
+  margin: 1.5rem 0;
+}
+.etapa {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 1rem 1.3rem;
+  display:flex; gap:1rem; align-items:flex-start;
+}
+.etapa-num {
+  font-family:'Press Start 2P',monospace;
+  font-size: .6rem; color: var(--bg);
+  background: var(--cyan);
+  padding:.35rem .5rem;
+  min-width:28px; text-align:center;
+  flex-shrink:0; margin-top:.2rem;
+}
+.etapa-titulo {
+  font-family:'Orbitron',sans-serif;
+  font-size: .9rem; font-weight:700;
+  color: var(--white); margin-bottom:.3rem;
+}
+.etapa p {
+  margin-bottom:0; font-size:1rem;
+}
+
+/* SITUACIONES LÍMITE CARDS */
+.slimite-grid {
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:1rem; margin: 1.5rem 0;
+}
+@media(max-width:560px){ .slimite-grid{grid-template-columns:1fr;} }
+.slimite-card {
+  background: var(--bg2);
+  border:1px solid var(--border);
+  padding: 1.2rem;
+  position:relative; overflow:hidden;
+}
+.slimite-card::before {
+  content:''; position:absolute;
+  top:0; left:0; right:0; height:2px;
+}
+.slimite-card.muerte::before  { background: var(--red); }
+.slimite-card.sufrim::before  { background: var(--gold); }
+.slimite-card.lucha::before   { background: var(--cyan); }
+.slimite-card.culpa::before   { background: var(--purple); }
+.slimite-icon {
+  font-size: 1.8rem; margin-bottom:.5rem; display:block;
+}
+.slimite-nombre {
+  font-family:'Orbitron',sans-serif;
+  font-size: .85rem; font-weight:700;
+  margin-bottom:.5rem;
+}
+.slimite-card.muerte .slimite-nombre  { color: var(--red); }
+.slimite-card.sufrim .slimite-nombre  { color: var(--gold); }
+.slimite-card.lucha .slimite-nombre   { color: var(--cyan); }
+.slimite-card.culpa .slimite-nombre   { color: var(--purple); }
+.slimite-card p {
+  font-size: 1rem; line-height:1.7; margin-bottom:0;
+}
+
+/* DIVISOR */
+.divisor {
+  border:none;
+  border-top: 1px solid var(--border);
+  margin: 3rem 0;
+}
+
+/* ── TAREA ── */
+.tarea-section {
+  position:relative; z-index:1;
+  background: linear-gradient(135deg, #060f1a 0%, #050a0e 100%);
+  border-top: 2px solid var(--gold);
+  padding: 3rem 1.5rem;
+}
+.tarea-inner {
+  max-width:860px; margin:0 auto;
+}
+.tarea-header {
+  display:flex; align-items:center; gap:1rem;
+  margin-bottom:2rem;
+}
+.tarea-badge {
+  font-family:'Press Start 2P',monospace;
+  font-size: .65rem; color:#000;
+  background: var(--gold);
+  padding: .5rem .8rem;
+  white-space:nowrap;
+}
+.tarea-titulo {
+  font-family:'Orbitron',sans-serif;
+  font-size: clamp(1.1rem,3vw,1.5rem);
+  font-weight:900; color: var(--gold);
+}
+.tarea-desc {
+  font-size: 1.1rem; color: var(--text);
+  line-height:1.9; margin-bottom:2rem;
+}
+.tarea-encabezado {
+  background: var(--bg2);
+  border:1px solid rgba(255,179,0,.3);
+  padding: 1.5rem 2rem;
+  margin-bottom: 1.5rem;
+}
+.tarea-encabezado-titulo {
+  font-family:'Orbitron',sans-serif;
+  font-size: .7rem; color: var(--gold);
+  letter-spacing:.2em; margin-bottom:1rem;
+  text-transform:uppercase;
+}
+.tarea-encabezado-pre {
+  font-size: 1rem; color: #e0d080;
+  line-height:2; white-space:pre-wrap;
+}
+.tarea-items {
+  display:flex; flex-direction:column; gap:1rem;
+  margin-top:1.5rem;
+}
+.tarea-item {
+  background: var(--bg3);
+  border:1px solid var(--border);
+  padding: 1.2rem 1.5rem;
+  display:flex; gap:1rem; align-items:flex-start;
+}
+.tarea-item-num {
+  font-family:'Orbitron',sans-serif;
+  font-size: .8rem; font-weight:900;
+  color: var(--gold); min-width:28px;
+  flex-shrink:0;
+}
+.tarea-item-body {
+  display:flex; flex-direction:column; gap:.3rem;
+}
+.tarea-item-titulo {
+  font-family:'Orbitron',sans-serif;
+  font-size: .95rem; font-weight:700;
+  color: var(--white);
+}
+.tarea-item-consigna {
+  font-size: 1rem; color: var(--text); line-height:1.8;
+}
+.tarea-nota {
+  background: rgba(0,229,255,.06);
+  border:1px solid rgba(0,229,255,.25);
+  padding:1rem 1.3rem;
+  margin-top: 1.5rem;
+  font-size: 1rem; color: var(--cyan2);
+  line-height:1.8;
+}
+
+/* ── FOOTER ── */
+footer {
+  position:relative; z-index:1;
+  text-align:center; padding:1.5rem;
+  border-top:1px solid var(--border);
+  font-size:.75rem; color:var(--dim);
+}
+footer a { color:var(--cyan); text-decoration:none; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  .hero { padding:3rem 1rem 2rem; }
+  .content { padding:1.5rem 1rem 3rem; }
+  .tarea-section { padding:2rem 1rem; }
+  .hero-title { font-size:1.3rem; }
+  p { font-size:1rem; }
+  ul.filo-list li { font-size:1rem; }
+  .etapa p { font-size:.95rem; }
+}
+
+/* SCROLL BAR */
+::-webkit-scrollbar { width:5px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:var(--border); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">⚡ FILOSOFÍA · UNIDAD I</div>
+  <div class="nav-links">
+    <a href="#asombro">1. Asombro</a>
+    <a href="#duda">2. Duda</a>
+    <a href="#jaspers">3. Situaciones Límite</a>
+    <a href="#tarea">Tarea</a>
+  </div>
+  <a class="nav-quiz" href="https://juliolaz.github.io/asombro_duda_situaciones_quiz/" target="_blank">▶ IR AL QUIZ</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">⚡ Unidad I · Tema 1.4</div>
+  <h1 class="hero-title">El Asombro, la Duda<br>y las Situaciones Límite</h1>
+  <div class="hero-sub">Aristóteles · Descartes · Jaspers</div>
+  <div class="hero-greek">ΘΑΥΜΑΖΕΙΝ · COGITO · GRENZSITUATIONEN</div>
+  <p class="hero-intro">
+    Tres caminos diferentes que llevan al mismo punto de partida del filosofar:
+    el asombro ante la realidad, la duda sobre el conocimiento y el encuentro
+    con los límites de la existencia humana.
+  </p>
+</div>
+
+<!-- CONTENIDO -->
+<div class="content">
+
+  <!-- TABLA DE CONTENIDOS -->
+  <div class="toc">
+    <div class="toc-title">// CONTENIDOS DEL TEMA</div>
+    <ul class="toc-list">
+      <li><a href="#asombro"><span class="toc-num">01</span>Thaumazein — El Asombro (Aristóteles)</a></li>
+      <li><a href="#duda"><span class="toc-num">02</span>La Duda Metódica (Descartes)</a></li>
+      <li><a href="#jaspers"><span class="toc-num">03</span>Situaciones Límite (Jaspers)</a></li>
+      <li><a href="#tarea"><span class="toc-num">📋</span>Tarea obligatoria</a></li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SECCIÓN 1: THAUMAZEIN                   -->
+  <!-- ═══════════════════════════════════════ -->
+  <section class="seccion" id="asombro">
+    <div class="seccion-header">
+      <div class="seccion-num">01</div>
+      <h2 class="seccion-titulo">Thaumazein — El Asombro</h2>
+    </div>
+    <div class="seccion-filosofo">// ARISTÓTELES · 384–322 a.C.</div>
+
+    <h3>¿Qué significa Thaumazein?</h3>
+    <p>
+      La palabra griega <strong style="color:var(--cyan)">thaumazein (θαυμάζειν)</strong> significa
+      asombro, admiración o maravilla. Para Aristóteles, este asombro no es
+      simplemente sorpresa o susto ante algo desconocido: es una actitud profunda
+      de apertura y curiosidad ante la realidad, que nos impulsa a hacernos preguntas
+      y a buscar explicaciones.
+    </p>
+
+    <div class="cita">
+      <p>
+        "Los hombres comenzaron a filosofar, ahora como en el principio,
+        por el asombro. Al principio se asombraban de las cosas extrañas
+        más cercanas; luego, avanzando poco a poco, llegaron a plantearse
+        problemas mayores, como los cambios de la Luna, los relativos al Sol
+        y a las estrellas, y los relativos a la generación de todas las cosas."
+      </p>
+      <span class="cita-autor">— Aristóteles, Metafísica, Libro I, 982b</span>
+    </div>
+
+    <h3>El Asombro como Origen de la Filosofía</h3>
+    <p>
+      Aristóteles afirma que la filosofía nació del asombro en dos etapas:
+      primero ante las cosas pequeñas y cercanas, y luego ante los grandes
+      problemas del universo. Este asombro es lo que distingue al filósofo
+      del que simplemente vive sin preguntarse nada.
+    </p>
+
+    <div class="concepto">
+      <div class="concepto-label">// CONCEPTO CLAVE</div>
+      <p>
+        El asombro filosófico no desaparece cuando encontramos una respuesta:
+        cada respuesta abre nuevas preguntas. A diferencia del miedo o la
+        sorpresa simple, el <strong style="color:var(--cyan)">thaumazein</strong>
+        genera un movimiento permanente hacia el conocimiento.
+      </p>
+    </div>
+
+    <h3>¿En qué se diferencia del asombro cotidiano?</h3>
+    <p>
+      Todos nos asombramos alguna vez: un truco de magia, una tormenta, una
+      coincidencia extraña. Pero ese asombro suele quedarse en la sorpresa y
+      luego olvidarse. El asombro filosófico es distinto:
+    </p>
+
+    <ul class="filo-list">
+      <li><strong>No se conforma con explicaciones superficiales:</strong> quiere entender el fondo de la cuestión.</li>
+      <li><strong>Reconoce la propia ignorancia:</strong> "Sé que no sé." El asombro nace de ver que no comprendemos algo que creíamos entender.</li>
+      <li><strong>Impulsa a la acción:</strong> lleva a investigar, preguntar, razonar sistemáticamente.</li>
+      <li><strong>Se dirige al ser en cuanto ser:</strong> no solo al "cómo" sino al "qué es" y al "por qué existe".</li>
+    </ul>
+
+    <h3>El Asombro y el Conocimiento</h3>
+    <p>
+      Para Aristóteles, el conocimiento filosófico no es útil en el sentido
+      práctico e inmediato. No sirve para ganar dinero ni para resolver un
+      problema técnico. Se busca por sí mismo, por el puro placer de entender.
+      Por eso afirma que la filosofía es la forma más libre del saber: es un
+      conocimiento que se busca sin ninguna finalidad externa.
+    </p>
+
+    <div class="importante">
+      <p>
+        💡 <strong>Para recordar:</strong> Aristóteles conecta el thaumazein
+        con la liberación de la ignorancia. El filósofo que se asombra reconoce
+        que no sabe y, por eso, se pone a buscar. El que no se asombra cree que
+        ya sabe todo y deja de aprender.
+      </p>
+    </div>
+  </section>
+
+  <hr class="divisor">
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SECCIÓN 2: DESCARTES                    -->
+  <!-- ═══════════════════════════════════════ -->
+  <section class="seccion" id="duda">
+    <div class="seccion-header">
+      <div class="seccion-num">02</div>
+      <h2 class="seccion-titulo">La Duda Metódica</h2>
+    </div>
+    <div class="seccion-filosofo">// RENÉ DESCARTES · 1596–1650</div>
+
+    <h3>¿Por qué Descartes decide dudar de todo?</h3>
+    <p>
+      Descartes vivió en el siglo XVII, en plena Revolución Científica.
+      A su alrededor todo el conocimiento tradicional estaba siendo puesto en
+      duda: Galileo, Copérnico y Kepler habían demostrado que la visión del
+      mundo que se enseñaba durante siglos era falsa. Descartes se preguntó:
+      ¿podemos encontrar alguna verdad absolutamente segura, que nadie pueda
+      discutir? Para responder esta pregunta, inventó un método radical:
+      <strong style="color:var(--cyan)">dudar de todo lo que sea posible dudar.</strong>
+    </p>
+
+    <div class="concepto">
+      <div class="concepto-label">// CONCEPTO CLAVE</div>
+      <p>
+        La <strong style="color:var(--cyan)">duda metódica</strong> no es
+        escepticismo: Descartes no duda porque crea que nada puede conocerse.
+        Duda como instrumento para encontrar aquello que sea tan sólido
+        que ni siquiera la duda pueda destruirlo.
+      </p>
+    </div>
+
+    <h3>Las Etapas de la Duda</h3>
+    <p>Descartes aplica la duda en niveles progresivos, cada uno más radical que el anterior:</p>
+
+    <div class="etapas">
+      <div class="etapa">
+        <div class="etapa-num">01</div>
+        <div>
+          <div class="etapa-titulo">Duda de los Sentidos</div>
+          <p>Los sentidos a veces nos engañan: un palo en el agua parece quebrado,
+          las torres lejanas parecen pequeñas, los colores cambian con la luz.
+          Si me han engañado una vez, ¿cómo confiar en ellos?</p>
+        </div>
+      </div>
+      <div class="etapa">
+        <div class="etapa-num">02</div>
+        <div>
+          <div class="etapa-titulo">El Argumento del Sueño</div>
+          <p>¿Y si ahora estoy soñando? Cuando soñamos, el sueño parece completamente
+          real. Si no puedo distinguir con certeza si estoy despierto o dormido,
+          tampoco puedo confiar en lo que "percibo" ahora mismo.</p>
+        </div>
+      </div>
+      <div class="etapa">
+        <div class="etapa-num">03</div>
+        <div>
+          <div class="etapa-titulo">El Genio Maligno</div>
+          <p>La duda más radical: ¿y si existe un ser poderoso y maligno que me
+          engaña siempre? Que hace que 2+2=4 me parezca verdadero cuando en
+          realidad es falso. Si tal ser existe, ni las matemáticas son seguras.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>El Cogito: La Primera Certeza</h3>
+    <p>
+      Después de dudar de absolutamente todo, Descartes descubre algo que
+      no puede dudar: que <strong style="color:var(--white)">está dudando.</strong>
+      Y si está dudando, está pensando. Y si está pensando, existe. Esta es
+      la primera verdad absoluta, indestructible incluso por el genio maligno:
+    </p>
+
+    <div class="cita">
+      <p>
+        "Cogito, ergo sum."<br>
+        <em>(Pienso, luego existo.)</em>
+      </p>
+      <span class="cita-autor">— René Descartes, Meditaciones Metafísicas (1641)</span>
+    </div>
+
+    <p>
+      Aunque el genio maligno me engañe en todo lo demás, para engañarme
+      <strong>necesita que yo exista</strong> para ser engañado. No puedo
+      dudar de que estoy dudando sin que esa misma duda confirme mi existencia.
+    </p>
+
+    <div class="importante">
+      <p>
+        💡 <strong>Diferencia clave:</strong> El escéptico antiguo (Pirrón, Sexto Empírico)
+        duda y concluye que no podemos saber nada. Descartes duda
+        como método y encuentra una certeza: el yo pensante.
+        La duda es la herramienta, no el destino.
+      </p>
+    </div>
+
+    <h3>¿Qué es la Duda como Punto de Partida Filosófico?</h3>
+    <p>
+      Al igual que Aristóteles con el asombro, Descartes señala que la
+      filosofía requiere una ruptura con la actitud cotidiana de aceptar
+      las cosas sin cuestionarlas. El asombro de Aristóteles dice
+      <em>"¡qué extraordinario es esto!"</em>; la duda de Descartes dice
+      <em>"¿estoy seguro de que esto es así?"</em> Ambos son puntos de
+      partida del pensar filosófico genuino.
+    </p>
+  </section>
+
+  <hr class="divisor">
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SECCIÓN 3: JASPERS                      -->
+  <!-- ═══════════════════════════════════════ -->
+  <section class="seccion" id="jaspers">
+    <div class="seccion-header">
+      <div class="seccion-num">03</div>
+      <h2 class="seccion-titulo">Situaciones Límite</h2>
+    </div>
+    <div class="seccion-filosofo">// KARL JASPERS · 1883–1969</div>
+
+    <h3>¿Quién es Karl Jaspers?</h3>
+    <p>
+      Karl Jaspers fue un filósofo alemán del siglo XX, fundador junto con
+      Heidegger del existencialismo alemán. Comenzó su carrera como psiquiatra,
+      lo que lo llevó a preguntarse por la experiencia humana más profunda:
+      ¿qué nos ocurre cuando enfrentamos lo que no podemos cambiar ni resolver?
+      Su respuesta fue el concepto de las
+      <strong style="color:var(--cyan)">situaciones límite (Grenzsituationen).</strong>
+    </p>
+
+    <h3>¿Qué son las Situaciones Límite?</h3>
+    <p>
+      Las situaciones límite son condiciones de la existencia humana que
+      <strong>no pueden ser resueltas, evitadas ni superadas definitivamente.</strong>
+      No son obstáculos que la tecnología, el dinero o el esfuerzo puedan eliminar.
+      Son parte constitutiva de lo que significa ser un ser humano finito.
+    </p>
+
+    <div class="concepto">
+      <div class="concepto-label">// CONCEPTO CLAVE</div>
+      <p>
+        Ante una situación límite solo hay dos actitudes posibles:
+        <strong style="color:var(--gold)">la evasión</strong> (distraernos, ignorarla, negarla)
+        o la <strong style="color:var(--green)">confrontación lúcida</strong>
+        (enfrentarla con honestidad y dejar que nos transforme).
+        Solo la segunda actitud nos lleva a una existencia más auténtica.
+      </p>
+    </div>
+
+    <h3>Las Cuatro Situaciones Límite</h3>
+
+    <div class="slimite-grid">
+      <div class="slimite-card muerte">
+        <span class="slimite-icon">💀</span>
+        <div class="slimite-nombre">1. La Muerte</div>
+        <p>La muerte propia y la de los seres queridos es la situación límite más radical. Nadie puede evitarla. Enfrentarla con lucidez transforma la manera en que vivimos: nos recuerda que el tiempo es finito y que cada decisión importa.</p>
+      </div>
+      <div class="slimite-card sufrim">
+        <span class="slimite-icon">⚡</span>
+        <div class="slimite-nombre">2. El Sufrimiento</div>
+        <p>El dolor, la enfermedad, la pérdida: no existe vida sin sufrimiento. Jaspers no propone resignarse, sino entender que el sufrimiento puede revelar aspectos de la existencia que en la comodidad permanecen ocultos.</p>
+      </div>
+      <div class="slimite-card lucha">
+        <span class="slimite-icon">⚔</span>
+        <div class="slimite-nombre">3. La Lucha</div>
+        <p>El conflicto con los demás es inevitable. Aunque queramos la armonía, nuestros intereses, deseos y necesidades chocan constantemente con los de otros. Aceptar esta condición permite relacionarse con más honestidad.</p>
+      </div>
+      <div class="slimite-card culpa">
+        <span class="slimite-icon">🔮</span>
+        <div class="slimite-nombre">4. La Culpa</div>
+        <p>Toda elección excluye otras posibilidades y genera responsabilidades. Nadie puede existir sin cometer alguna forma de culpa. Jaspers no busca el castigo, sino el reconocimiento honesto de nuestra responsabilidad.</p>
+      </div>
+    </div>
+
+    <h3>Las Situaciones Límite como Punto de Partida Filosófico</h3>
+    <p>
+      Jaspers añade un tercer detonador del filosofar, diferente al asombro
+      de Aristóteles y a la duda de Descartes: el <strong>encuentro con los propios límites.</strong>
+      Cuando algo nos supera, cuando ya no podemos resolver ni controlar,
+      experimentamos lo que Jaspers llama el
+      <strong style="color:var(--cyan)">"naufragio" (Scheitern):</strong>
+      el momento en que fallamos ante lo que no podemos cambiar.
+    </p>
+
+    <p>
+      Paradójicamente, este naufragio puede ser la oportunidad de un encuentro
+      más profundo con uno mismo y con la
+      <strong style="color:var(--purple)">Trascendencia</strong>
+      (lo que está más allá de nuestra existencia individual).
+      La persona que nunca enfrenta sus límites vive de manera superficial;
+      la que los enfrenta con honestidad puede vivir de manera auténtica.
+    </p>
+
+    <div class="importante">
+      <p>
+        💡 <strong>Conexión entre los tres:</strong> Asombro, duda y situaciones límite
+        son tres formas de ruptura con lo cotidiano. El asombro interrumpe la
+        costumbre, la duda interrumpe la certeza ingenua, y la situación límite
+        interrumpe la ilusión de control. Los tres abren el camino al filosofar.
+      </p>
+    </div>
+  </section>
+
+</div><!-- /content -->
+
+<!-- ══════════════════════════════════════════ -->
+<!--  TAREA                                     -->
+<!-- ══════════════════════════════════════════ -->
+<section class="tarea-section" id="tarea">
+  <div class="tarea-inner">
+    <div class="tarea-header">
+      <div class="tarea-badge">📋 TAREA</div>
+      <h2 class="tarea-titulo">Trabajo en Carpeta — Tema 1.4</h2>
+    </div>
+
+    <p class="tarea-desc">
+      Realizá en tu carpeta un resumen propio del tema. Para cada título y
+      subtítulo principal escribí <strong>no más de dos renglones</strong>:
+      una frase que explique con tus propias palabras de qué se trata.
+      No copies el texto: reescribilo como si se lo explicaras a alguien
+      que no sabe nada del tema.
+    </p>
+
+    <!-- ENCABEZADO DE EJEMPLO -->
+    <div class="tarea-encabezado">
+      <div class="tarea-encabezado-titulo">// ENCABEZADO OBLIGATORIO (así debe iniciar la tarea en tu carpeta)</div>
+      <div class="tarea-encabezado-pre">Nombre y Apellido:  ___________________________    Fecha: ____________    Curso: ______
+
+Materia: Filosofía                                 Profesora/or: ___________________________
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+UNIDAD 1 — ¿Qué es Filosofar?
+Tema 1.4: El Asombro, la Duda y las Situaciones Límite
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Thaumazein (Aristóteles)
+   1.1. ¿Qué significa Thaumazein?
+   1.2. El asombro como origen de la filosofía
+   1.3. Diferencia entre asombro cotidiano y filosófico
+
+2. La Duda Metódica (Descartes)
+   2.1. ¿Por qué Descartes decide dudar de todo?
+   2.2. Las etapas de la duda (sentidos, sueño, genio maligno)
+   2.3. El Cogito: "Pienso, luego existo"
+
+3. Situaciones Límite (Jaspers)
+   3.1. ¿Qué son las situaciones límite?
+   3.2. Las cuatro situaciones: muerte, sufrimiento, lucha, culpa
+   3.3. Evasión vs. confrontación lúcida</div>
+    </div>
+
+    <!-- ÍTEMS DE LA TAREA -->
+    <div class="tarea-items">
+      <div class="tarea-item">
+        <div class="tarea-item-num">1</div>
+        <div class="tarea-item-body">
+          <div class="tarea-item-titulo">Thaumazein (Aristóteles)</div>
+          <div class="tarea-item-consigna">
+            Para cada subtítulo de esta sección escribí 1 o 2 renglones:
+            qué significa thaumazein, por qué Aristóteles dice que la filosofía
+            comienza en el asombro, y en qué se diferencia el asombro filosófico
+            del simple susto o sorpresa del día a día.
+          </div>
+        </div>
+      </div>
+      <div class="tarea-item">
+        <div class="tarea-item-num">2</div>
+        <div class="tarea-item-body">
+          <div class="tarea-item-titulo">La Duda Metódica (Descartes)</div>
+          <div class="tarea-item-consigna">
+            Para cada subtítulo: explicá brevemente por qué Descartes decide dudar
+            de todo, describí cada etapa de la duda con una oración, y explicá
+            qué es el cogito y por qué es la primera certeza indudable.
+          </div>
+        </div>
+      </div>
+      <div class="tarea-item">
+        <div class="tarea-item-num">3</div>
+        <div class="tarea-item-body">
+          <div class="tarea-item-titulo">Situaciones Límite (Jaspers)</div>
+          <div class="tarea-item-consigna">
+            Para cada subtítulo: explicá qué son las situaciones límite, describí
+            cada una de las cuatro (muerte, sufrimiento, lucha, culpa) con una
+            oración cada una, y explicá la diferencia entre evasión y confrontación lúcida.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tarea-nota">
+      ⚡ <strong>Recordá:</strong> El resumen va escrito a mano en la carpeta.
+      No alcanza con copiar — usá tus propias palabras. El objetivo es que
+      puedas explicarle el tema a alguien sin mirar el apunte.
+      Una vez que tengas la tarea lista, ¡hacé el quiz para ver cómo quedaste!
+    </div>
+
+    <div style="text-align:center; margin-top:2rem;">
+      <a href="https://juliolaz.github.io/asombro_duda_situaciones_quiz/" target="_blank" style="
+        display:inline-block;
+        font-family:'Orbitron',sans-serif; font-size:.8rem; font-weight:900;
+        background:linear-gradient(135deg,var(--gold),var(--gold2));
+        color:#000; padding:.9rem 2.5rem; text-decoration:none;
+        letter-spacing:.15em; text-transform:uppercase;
+        transition:all .2s;
+      " onmouseover="this.style.boxShadow='0 0 30px var(--gold)'"
+         onmouseout="this.style.boxShadow='none'">
+        ▶ IR AL CHRONOS QUIZ 1.4
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>📚 Filosofía · Unidad I · Tema 1.4 &nbsp;|&nbsp;
+     <a href="../index.html">← Volver al inicio</a> &nbsp;|&nbsp;
+     <a href="https://juliolaz.github.io/asombro_duda_situaciones_quiz/" target="_blank">Ir al Quiz ▶</a>
+  </p>
+</footer>
+
+</body>
+</html>
